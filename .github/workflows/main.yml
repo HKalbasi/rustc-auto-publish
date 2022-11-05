@@ -1,12 +1,13 @@
 name: CI
 on:
-  push:
-    branches: [master]
-  pull_request:
-    branches: [master]
-  schedule:
-    # every tuesday at 8am run the build
-    - cron:  '0 8 * * 2'
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Version'     
+        required: true
+        default: 'warning'
+      tags:
+        description: 'A new release'
 
 jobs:
   run:
