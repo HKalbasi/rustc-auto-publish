@@ -10,7 +10,7 @@ use std::str;
 use std::thread;
 use std::time::Duration;
 
-const PREFIX: &str = "rustc-ap";
+const PREFIX: &str = "hkalbasi-rustc-ap";
 
 fn main() {
     let token = std::env::args().nth(1);
@@ -293,9 +293,8 @@ fn publish(pkg: &Package, commit: &str, vers: &semver::Version) {
                     "\
                 Automatically published version of the package `{}` \
                 in the rust-lang/rust repository from commit {} \
-
                 The publishing script for this crate lives at: \
-                https://github.com/alexcrichton/rustc-auto-publish
+                https://github.com/hkalbasi/rustc-auto-publish
             ",
                     pkg.name, commit
                 )
