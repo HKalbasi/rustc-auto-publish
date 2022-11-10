@@ -20,6 +20,7 @@ jobs:
       run: |
         echo "[registry]" >> $HOME/.cargo/credentials
         echo "token = \"${{ secrets.CRATESIO_TOKEN }}\"" >> $HOME/.cargo/credentials
+        echo ${{ github.events.input.version }}
     - run: cargo run ${{ secrets.github_token }} ${{ github.events.input.version }}
       if: github.event_name != 'pull_request'
 
