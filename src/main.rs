@@ -38,6 +38,10 @@ fn main() {
             name: "rustc_expand",
             dir: "compiler/rustc_expand",
         },
+        RustcApCrate {
+            name: "rustc_abi",
+            dir: "compiler/rustc_abi",
+        },
     ];
 
     println!("learning about the dependency graph");
