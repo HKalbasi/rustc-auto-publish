@@ -6,7 +6,7 @@ use std::fs::{self, File};
 use std::io::{Read, Write};
 use std::path::Path;
 use std::process::Command;
-use std::str;
+use std::str::{self, FromStr};
 use std::thread;
 use std::time::Duration;
 
@@ -213,53 +213,8 @@ struct RustcPackageInfo {
     metadata: Metadata,
 }
 
-fn get_version_to_publish(crates: &[&Package]) -> semver::Version {
-    let mut cur = crates.iter().map(|p| get_current_version(p)).max().unwrap();
-    cur.major += 1;
-    return cur;
-}
-
-fn get_current_version(pkg: &Package) -> semver::Version {
-    println!("fetching current version of {}", pkg.name);
-    let mut easy = curl::easy::Easy::new();
-
-    let url = format!("https://crates.io/api/v1/crates/{}-{}", PREFIX, pkg.name);
-    let mut list = curl::easy::List::new();
-    list.append("User-Agent: rustc-auto-publish").unwrap();
-    easy.get(true).unwrap();
-    easy.http_headers(list).unwrap();
-    easy.url(&url).unwrap();
-    easy.follow_location(true).unwrap();
-    let mut data = Vec::new();
-    {
-        let mut t = easy.transfer();
-        t.write_function(|d| {
-            data.extend_from_slice(d);
-            Ok(d.len())
-        })
-        .unwrap();
-        t.perform().unwrap();
-    }
-    if easy.response_code().unwrap() == 404 {
-        return semver::Version::parse("0.0.0").unwrap();
-    }
-
-    assert_eq!(easy.response_code().unwrap(), 200);
-
-    let output: Output = serde_json::from_slice(&data).unwrap();
-
-    return output.krate.max_version;
-
-    #[derive(Deserialize)]
-    struct Output {
-        #[serde(rename = "crate")]
-        krate: Crate,
-    }
-
-    #[derive(Deserialize)]
-    struct Crate {
-        max_version: semver::Version,
-    }
+fn get_version_to_publish(_: &[&Package]) -> semver::Version {
+    return semver::Version::from_str(&std::env::args().nth(2).unwrap()).unwrap();
 }
 
 fn publish(pkg: &Package, commit: &str, vers: &semver::Version) {

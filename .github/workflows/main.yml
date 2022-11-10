@@ -2,12 +2,10 @@ name: CI
 on:
   workflow_dispatch:
     inputs:
-      logLevel:
+      version:
         description: 'Version'     
         required: true
-        default: 'warning'
-      tags:
-        description: 'A new release'
+        default: '0.0.20220103'
 
 jobs:
   run:
@@ -22,6 +20,6 @@ jobs:
       run: |
         echo "[registry]" >> $HOME/.cargo/credentials
         echo "token = \"${{ secrets.CRATESIO_TOKEN }}\"" >> $HOME/.cargo/credentials
-    - run: cargo run ${{ secrets.github_token }}
+    - run: cargo run ${{ secrets.github_token }} ${{ version }}
       if: github.event_name != 'pull_request'
 
