@@ -64,7 +64,7 @@ fn latest_master_commit(token: &Option<String>) -> String {
     println!("Learning rustc's version");
     let mut easy = curl::easy::Easy::new();
     easy.get(true).unwrap();
-    easy.url("https://api.github.com/repos/rust-lang/rust/commits/master")
+    easy.url("https://api.github.com/repos/hkalbasi/rust/commits/master")
         .unwrap();
     if let Some(token) = token {
         easy.username("x-access-token").unwrap();
@@ -95,7 +95,7 @@ fn download_src(dst: &Path, commit: &str) {
     let mut easy = curl::easy::Easy::new();
 
     let url = format!(
-        "https://github.com/rust-lang/rust/archive/{}.tar.gz",
+        "https://github.com/hkalbasi/rust/archive/{}.tar.gz",
         commit
     );
     easy.get(true).unwrap();
@@ -247,7 +247,7 @@ fn publish(pkg: &Package, commit: &str, vers: &semver::Version) {
                 format!(
                     "\
                 Automatically published version of the package `{}` \
-                in the rust-lang/rust repository from commit {} \
+                in the hkalbasi/rust repository from commit {} \
                 The publishing script for this crate lives at: \
                 https://github.com/hkalbasi/rustc-auto-publish
             ",
@@ -257,7 +257,7 @@ fn publish(pkg: &Package, commit: &str, vers: &semver::Version) {
             );
             p.insert(
                 "repository".to_string(),
-                "https://github.com/rust-lang/rust".to_string().into(),
+                "https://github.com/hkalbasi/rust".to_string().into(),
             );
         }
 
