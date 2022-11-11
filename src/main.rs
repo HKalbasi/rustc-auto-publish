@@ -27,18 +27,6 @@ fn main() {
 
     let target_crates = vec![
         RustcApCrate {
-            name: "rustc_ast",
-            dir: "compiler/rustc_ast",
-        },
-        RustcApCrate {
-            name: "rustc_parse",
-            dir: "compiler/rustc_parse",
-        },
-        RustcApCrate {
-            name: "rustc_expand",
-            dir: "compiler/rustc_expand",
-        },
-        RustcApCrate {
             name: "rustc_abi",
             dir: "compiler/rustc_abi",
         },
