@@ -25,12 +25,10 @@ fn main() {
         download_src(&tmpdir, &commit);
     }
 
-    let target_crates = vec![
-        RustcApCrate {
-            name: "rustc_abi",
-            dir: "compiler/rustc_abi",
-        },
-    ];
+    let target_crates = vec![RustcApCrate {
+        name: "compiletest",
+        dir: "tools/compiletest",
+    }];
 
     println!("learning about the dependency graph");
     let rustc_packages = get_rustc_packages(&target_crates, &dst);
@@ -86,10 +84,7 @@ fn download_src(dst: &Path, commit: &str) {
     println!("downloading source tarball");
     let mut easy = curl::easy::Easy::new();
 
-    let url = format!(
-        "https://github.com/hkalbasi/rust/archive/{}.tar.gz",
-        commit
-    );
+    let url = format!("https://github.com/hkalbasi/rust/archive/{}.tar.gz", commit);
     easy.get(true).unwrap();
     easy.url(&url).unwrap();
     easy.follow_location(true).unwrap();
