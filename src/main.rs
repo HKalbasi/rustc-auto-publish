@@ -27,7 +27,7 @@ fn main() {
 
     let target_crates = vec![RustcApCrate {
         name: "compiletest",
-        dir: "tools/compiletest",
+        dir: "src/tools/compiletest",
     }];
 
     println!("learning about the dependency graph");
